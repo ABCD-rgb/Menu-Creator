@@ -5,10 +5,17 @@ const variants = {
   visible: { opacity: 1, y: 0 },
 };
 
-export default function MotionReveal({ children, delay = 0.1, className = "", as = "section" }) {
+export default function MotionReveal({
+  children,
+  delay = 0.1,
+  className = "",
+  as = "section",
+  ...rest
+}) {
   const Component = motion[as] || motion.section;
   return (
     <Component
+      {...rest}
       className={className}
       variants={variants}
       initial="hidden"
