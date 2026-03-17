@@ -17,7 +17,11 @@ export default function Footer() {
           </p>
         </div>
         <div className="text-right">
-          <Button className="gap-2" size="sm">
+          <Button
+            className="gap-2"
+            size="sm"
+            onClick={() => window.location.assign("https://www.facebook.com/share/1AgXcJi36B/")}
+          >
             <PhoneCall size={16} />
             Schedule a Call
           </Button>

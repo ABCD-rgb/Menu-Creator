@@ -9,7 +9,11 @@ export default function NavBar() {
         <a href="#samples" className="transition hover:text-ink">
           Sample Menus
         </a>
-        <Button size="sm" className="gap-2">
+        <Button
+          size="sm"
+          className="gap-2"
+          onClick={() => window.location.assign("https://www.facebook.com/share/1AgXcJi36B/")}
+        >
           <Sparkles size={16} />
           Book a Demo
         </Button>
