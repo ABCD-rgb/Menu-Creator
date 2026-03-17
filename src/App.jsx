@@ -6,7 +6,6 @@ import Hero from "./components/Hero.jsx";
 import MenuBookletPage from "./components/MenuBookletPage.jsx";
 import MotionReveal from "./components/MotionReveal.jsx";
 import NavBar from "./components/NavBar.jsx";
-import PricingSection from "./components/PricingSection.jsx";
 import ProcessSection from "./components/ProcessSection.jsx";
 import SampleMenusSection from "./components/SampleMenusSection.jsx";
 
@@ -40,7 +39,6 @@ export default function App() {
       <FeaturesSection />
       <SampleMenusSection />
       <ProcessSection />
-      <PricingSection />
       <Footer />
     </div>
   );

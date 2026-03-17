@@ -4,6 +4,10 @@ import HTMLFlipBook from "react-pageflip";
 
 export default function MenuBooklet({ menu }) {
   const isDark = menu.theme.paper === "#1c1310";
+  const hasBackgroundImage = Boolean(
+    menu.background?.mode === "image" && menu.background?.imageUrl
+  );
+  const hasCoverLogo = Boolean(menu.cover?.logo?.enabled && menu.cover?.logo?.imageUrl);
   const chunkItems = (items, size) => {
     const chunks = [];
     for (let i = 0; i < items.length; i += size) {
@@ -128,7 +132,12 @@ export default function MenuBooklet({ menu }) {
     <div
       className="h-dvh overflow-hidden"
       style={{
-        backgroundColor: menu.theme.paper,
+        backgroundColor: menu.background?.color ?? menu.theme.paper,
+        backgroundImage: hasBackgroundImage
+          ? `linear-gradient(180deg, rgba(14,18,20,0.35), rgba(14,18,20,0.12)), url(${menu.background.imageUrl})`
+          : undefined,
+        backgroundSize: hasBackgroundImage ? "cover" : undefined,
+        backgroundPosition: hasBackgroundImage ? "center" : undefined,
         color: menu.theme.ink,
         fontFamily: menu.theme.bodyFamily,
       }}
@@ -194,6 +203,13 @@ export default function MenuBooklet({ menu }) {
                     <div className="flex h-full flex-col justify-between">
                       <div />
                       <div>
+                        {hasCoverLogo ? (
+                          <img
+                            src={menu.cover.logo.imageUrl}
+                            alt={`${menu.title} logo`}
+                            className="mb-5 h-16 w-auto max-w-[200px] object-contain"
+                          />
+                        ) : null}
                         <h2 className="text-4xl sm:text-5xl" style={{ fontFamily: menu.theme.fontFamily }}>
                           {menu.cover?.title ?? menu.title}
                         </h2>

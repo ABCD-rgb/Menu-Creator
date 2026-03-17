@@ -11,9 +11,9 @@ export default function Footer() {
     >
       <div className="flex flex-wrap items-center justify-between gap-6">
         <div>
-          <h3 className="font-display text-2xl">MenuMuse</h3>
+          <h3 className="font-display text-2xl">JuanMenu</h3>
           <p className="mt-2 text-sm text-ink/60">
-            Digital menus hosted on Vercel, built to convert.
+            Frictionless digital menus your guests will actually love to use.
           </p>
         </div>
         <div className="text-right">
@@ -21,7 +21,7 @@ export default function Footer() {
             <PhoneCall size={16} />
             Schedule a Call
           </Button>
-          <p className="mt-3 text-sm text-ink/60">hello@menumuse.studio</p>
+          <p className="mt-3 text-sm text-ink/60">supportjuanmenu@gmail.com</p>
         </div>
       </div>
     </MotionReveal>

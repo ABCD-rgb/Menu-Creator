@@ -1,7 +1,6 @@
 const stats = [
   { value: "72 hrs", label: "Average launch time" },
   { value: "100%", label: "Mobile optimized" },
-  { value: "0", label: "App downloads" },
 ];
 
 export default function Stats() {
