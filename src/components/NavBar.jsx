@@ -4,13 +4,10 @@ import { Button } from "./ui/button.jsx";
 export default function NavBar() {
   return (
     <nav className="flex items-center justify-between">
-      <div className="font-display text-2xl text-ink">MenuMuse</div>
+      <div className="font-display text-2xl text-ink">JuanMenu</div>
       <div className="hidden items-center gap-6 text-sm text-ink/70 md:flex">
         <a href="#samples" className="transition hover:text-ink">
           Sample Menus
-        </a>
-        <a href="#pricing" className="transition hover:text-ink">
-          Pricing
         </a>
         <Button size="sm" className="gap-2">
           <Sparkles size={16} />

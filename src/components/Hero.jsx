@@ -8,14 +8,13 @@ export default function Hero() {
     <section className="mt-14 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
       <div>
         <p className="text-xs uppercase tracking-[0.3em] text-ember">
-          Hosted on Vercel · Lightning-fast · QR ready
+          Lightning-fast · QR ready
         </p>
         <h1 className="mt-5 font-display text-4xl leading-tight sm:text-5xl lg:text-6xl text-ink">
-          Turn every table into a premium ordering experience.
+          Digital na ang Kainan!
         </h1>
         <p className="mt-5 max-w-2xl text-ink/70">
-          MenuMuse builds modern, responsive digital menus that look incredible on any device. We design the
-          menu, host it on Vercel, and give your restaurant a shareable, QR-ready link in days.
+          Upgrade your restaurant with a sleek digital menu. We handle the design and keep your link active for life—no monthly fees, no stress. Just share and serve.
         </p>
         <div className="mt-7 flex flex-wrap gap-4">
           <Button className="gap-2">
@@ -47,7 +46,7 @@ export default function Hero() {
             </span>
             <h3 className="mt-3 text-xl font-semibold text-ink">Modern Filipino favorites</h3>
             <p className="mt-2 text-sm text-ink/60">
-              Category toggles, featured dishes, and zero app downloads.
+              Category toggles, featured dishes.
             </p>
             <div className="mt-5 space-y-3 text-sm text-ink/60">
               {[

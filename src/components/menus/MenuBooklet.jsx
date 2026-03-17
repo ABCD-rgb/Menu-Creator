@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { MoveHorizontal } from "lucide-react";
+import { ImageIcon, MoveHorizontal } from "lucide-react";
 import HTMLFlipBook from "react-pageflip";
 
 export default function MenuBooklet({ menu }) {
   const isDark = menu.theme.paper === "#1c1310";
+  const hasBackgroundImage = Boolean(
+    menu.background?.mode === "image" && menu.background?.imageUrl
+  );
+  const hasCoverLogo = Boolean(menu.cover?.logo?.enabled && menu.cover?.logo?.imageUrl);
   const chunkItems = (items, size) => {
     const chunks = [];
     for (let i = 0; i < items.length; i += size) {
@@ -44,8 +48,10 @@ export default function MenuBooklet({ menu }) {
       const padding = Math.max(16, Math.min(48, viewportWidth * 0.06));
       const isPhone = viewportWidth < 640;
       const isTablet = viewportWidth >= 640 && viewportWidth < 1024;
-      const ratio = isPhone ? 0.7 : isTablet ? 0.6 : 0.42;
-      const height = Math.max(280, Math.min(viewportHeight - padding * 2, viewportHeight * ratio));
+      const ratio = isPhone ? 0.56 : isTablet ? 0.5 : 0.42;
+      const controlsAllowance = isPhone ? 84 : 96;
+      const availableHeight = viewportHeight - padding * 2 - controlsAllowance;
+      const height = Math.max(240, Math.min(availableHeight, viewportHeight * ratio));
       const maxWidth = viewportWidth - padding * 2;
       const width = Math.max(isPhone ? 260 : 320, Math.min(maxWidth, height * 0.72));
       setBookSize({ width, height });
@@ -68,16 +74,75 @@ export default function MenuBooklet({ menu }) {
     touchStart.current = null;
   };
 
+  const renderMenuItem = (item, index, compactPrice = false) => {
+    const [name, price, hasImage, imageUrl] = item;
+
+    return (
+      <div
+        key={`${name}-${index}`}
+        className={`group rounded-xl border px-3 ${
+          hasImage ? "bg-white/45 py-3.5" : "bg-transparent py-2"
+        }`}
+        style={{ borderColor: hasImage ? `${menu.theme.secondary}55` : `${menu.theme.secondary}22` }}
+      >
+        <div className="flex items-center gap-3">
+          {hasImage ? (
+            <div
+              className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border"
+              style={{
+                borderColor: `${menu.theme.secondary}80`,
+                background:
+                  "radial-gradient(circle at 25% 20%, rgba(255,255,255,0.7), rgba(255,255,255,0.2) 45%, rgba(0,0,0,0.04) 100%)",
+              }}
+            >
+              {imageUrl ? (
+                <>
+                  <img src={imageUrl} alt={name} className="h-full w-full object-cover" loading="lazy" />
+                  <div className="absolute inset-0 bg-[linear-gradient(160deg,rgba(0,0,0,0),rgba(0,0,0,0.22))]" />
+                </>
+              ) : (
+                <>
+                  <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0))]" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-[10px] font-semibold uppercase tracking-[0.14em] opacity-75">
+                    <ImageIcon size={18} />
+                    Image
+                  </div>
+                </>
+              )}
+            </div>
+          ) : null}
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <span className={`truncate ${hasImage ? "text-[15px] font-semibold" : "font-medium"}`}>
+              {name}
+            </span>
+            <span
+              className="h-px flex-1 border-b border-dotted opacity-35"
+              style={{ borderColor: menu.theme.secondary }}
+            />
+            <span className={compactPrice ? "text-base font-semibold" : "font-semibold opacity-80"}>
+              {price}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div
-      className="h-screen overflow-hidden"
+      className="h-dvh overflow-hidden"
       style={{
-        backgroundColor: menu.theme.paper,
+        backgroundColor: menu.background?.color ?? menu.theme.paper,
+        backgroundImage: hasBackgroundImage
+          ? `linear-gradient(180deg, rgba(14,18,20,0.35), rgba(14,18,20,0.12)), url(${menu.background.imageUrl})`
+          : undefined,
+        backgroundSize: hasBackgroundImage ? "cover" : undefined,
+        backgroundPosition: hasBackgroundImage ? "center" : undefined,
         color: menu.theme.ink,
         fontFamily: menu.theme.bodyFamily,
       }}
     >
-      <div className="flex h-full items-center justify-center px-4 py-4 sm:px-6 sm:py-6">
+      <div className="flex h-full items-center justify-center px-4 py-3 sm:px-6 sm:py-4">
         <div className="relative w-full">
           <div
             className="absolute right-2 top-2 flex items-center gap-2 rounded-full border px-3 py-1 text-xs opacity-60"
@@ -112,9 +177,9 @@ export default function MenuBooklet({ menu }) {
               width={bookSize.width}
               height={bookSize.height}
               size="stretch"
-              minWidth={340}
+              minWidth={260}
               maxWidth={900}
-              minHeight={600}
+              minHeight={240}
               maxHeight={1200}
               maxShadowOpacity={0.25}
               showCover={hasCover}
@@ -138,6 +203,13 @@ export default function MenuBooklet({ menu }) {
                     <div className="flex h-full flex-col justify-between">
                       <div />
                       <div>
+                        {hasCoverLogo ? (
+                          <img
+                            src={menu.cover.logo.imageUrl}
+                            alt={`${menu.title} logo`}
+                            className="mb-5 h-16 w-auto max-w-[200px] object-contain"
+                          />
+                        ) : null}
                         <h2 className="text-4xl sm:text-5xl" style={{ fontFamily: menu.theme.fontFamily }}>
                           {menu.cover?.title ?? menu.title}
                         </h2>
@@ -174,12 +246,7 @@ export default function MenuBooklet({ menu }) {
                                   {section.name}
                                 </h3>
                                 <div className="mt-3 space-y-2 text-sm">
-                                  {section.items.map((item) => (
-                                    <div key={item[0]} className="flex items-center justify-between">
-                                      <span className="font-medium">{item[0]}</span>
-                                      <span className="text-base font-semibold">{item[1]}</span>
-                                    </div>
-                                  ))}
+                                  {section.items.map((item, index) => renderMenuItem(item, index, true))}
                                 </div>
                               </div>
                             ))}
@@ -196,12 +263,7 @@ export default function MenuBooklet({ menu }) {
                                 {section.name}
                               </h3>
                               <div className="mt-3 space-y-2 text-sm">
-                                {section.items.map((item) => (
-                                  <div key={item[0]} className="flex items-center justify-between">
-                                    <span className="font-medium">{item[0]}</span>
-                                    <span className="opacity-70">{item[1]}</span>
-                                  </div>
-                                ))}
+                                {section.items.map((item, index) => renderMenuItem(item, index))}
                               </div>
                             </div>
                           ))}

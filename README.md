@@ -1,4 +1,4 @@
-# MenuMuse
+# JuanMenu
 
 A bright, modern landing page for a digital restaurant menu business with interactive, booklet-style menu previews.
 

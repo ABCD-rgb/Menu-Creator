@@ -19,7 +19,7 @@ const steps = [
   {
     step: "03",
     title: "Launch & share",
-    copy: "We host it on Vercel, give you a QR + link.",
+    copy: "Receive your custom QR code and link. No technical setup needed—just share it with your diners.",
     icon: QrCode,
   },
 ];
